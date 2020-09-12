@@ -1,0 +1,26 @@
+.content-profile img {
+    width: 100%;
+}
+
+.image-profile {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+
+.content-profile .image-profile img {
+    width: 150px;
+
+    border-radius: 50%;
+    border: 5px solid white;
+}
+
+.profile-description {
+    margin-left: 20px;
+}
+
+.profile-name {
+
+}
