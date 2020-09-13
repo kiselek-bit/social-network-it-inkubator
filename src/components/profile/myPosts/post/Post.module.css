@@ -1,0 +1,9 @@
+.item {
+    color: blue;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.item img {
+    width: 100px;
+}

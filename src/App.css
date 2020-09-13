@@ -8,22 +8,8 @@
     grid-gap: 10px;
 }
 
-.header {
-    grid-area: header;
-    background-color: #F8F8F8;
-    border-radius: 5px;
-}
 
-.navigation {
-    grid-area: navigation;
-    background-color: #454755;
-    color: white;
-    border-radius: 5px;
-}
 
-.content-profile {
-    grid-area: content;
-    background-color: #F8F8F8;
-    border-radius: 5px;
-}
+
+
 

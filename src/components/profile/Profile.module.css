@@ -1,8 +1,8 @@
-.content-profile img {
+.content img {
     width: 100%;
 }
 
-.image-profile {
+.author {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -10,17 +10,23 @@
 
 
 
-.content-profile .image-profile img {
+.content .author img {
     width: 150px;
 
     border-radius: 50%;
     border: 5px solid white;
 }
 
-.profile-description {
+.description {
     margin-left: 20px;
 }
 
-.profile-name {
+.image img {
+    height: 300px;
+}
 
+.content {
+    grid-area: content;
+    background-color: #F1F1F1;
+    border-radius: 5px;
 }

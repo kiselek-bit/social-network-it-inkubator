@@ -1,27 +1,21 @@
 import React from 'react';
-import './Profile.css'
+import s from './Profile.module.css'
+import MyPosts from "./myPosts/MyPosts";
 
 const Profile = () => {
-    return(
-        <div className='content-profile'>
-            <div className='main-image'>
+    return (
+        <div className={s.content}>
+            <div className={s.image}>
                 <img src='https://www.w3schools.com/howto/img_snow_wide.jpg'/>
             </div>
-            <div className='image-profile'>
+            <div className={s.author}>
                 <img src='https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg'/>
-                <div className='profile-description'>
-                    <div className='profile-name'>Yauheni Kisel</div>
-                    <div className='profile-country'>Minsk,Belarus</div>
+                <div className={s.description}>
+                    <div className={s.name}>Yauheni Kisel</div>
+                    <div className={s.country}>Minsk, Belarus</div>
                 </div>
             </div>
-            <div className='profile-posts'>
-                My posts
-                <div>New posts</div>
-                <div>
-                    <div>Post1</div>
-                    <div>Post2</div>
-                </div>
-            </div>
+            <MyPosts />
         </div>
     )
 }
