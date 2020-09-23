@@ -8,6 +8,12 @@
     grid-gap: 10px;
 }
 
+.app-wrapper-content {
+    grid-area: content;
+    background-color: #F1F1F1;
+    border-radius: 5px;
+}
+
 
 
 

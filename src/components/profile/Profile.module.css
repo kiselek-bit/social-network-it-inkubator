@@ -1,5 +1,6 @@
 .content img {
     width: 100%;
+    border-radius: 5px;
 }
 
 .author {
@@ -25,8 +26,3 @@
     height: 300px;
 }
 
-.content {
-    grid-area: content;
-    background-color: #F1F1F1;
-    border-radius: 5px;
-}
