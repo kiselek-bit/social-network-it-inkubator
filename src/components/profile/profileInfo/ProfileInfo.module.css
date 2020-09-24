@@ -1,0 +1,25 @@
+.author {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.author img {
+    width: 150px;
+
+    border-radius: 50%;
+    border: 5px solid white;
+}
+
+.description {
+    margin-left: 20px;
+}
+
+.image img {
+    height: 300px;
+}
+
+img {
+    width: 100%;
+    border-radius: 5px;
+}
