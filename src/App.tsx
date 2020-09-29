@@ -9,10 +9,18 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import News from "./components/news/News";
 import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
+import {DialogsPageType, ProfilePageType, StateType} from './redux/state'
+
+type PropsType = {
+    state: StateType
+}
 
 
+function App(props: PropsType) {
 
-function App() {
+    let profileState: ProfilePageType = props.state.profilePage
+    let dialogState:DialogsPageType = props.state.dialogsPage
+
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -20,11 +28,11 @@ function App() {
                 <Nav/>
                 <div className='app-wrapper-content'>
 
-                    <Route path='/dialogs' render={Dialogs}/>
-                    <Route path='/profile' render={Profile}/>
-                    <Route path='/news' render={News}/>
-                    <Route path='/music' render={Music}/>
-                    <Route path='/settings' render={Settings}/>
+                    <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogState}/>}/>
+                    <Route path='/profile' render={() => <Profile profileState={profileState}/>}/>
+                    <Route path='/news' render={() => <News/>}/>
+                    <Route path='/music' render={() => <Music/>}/>
+                    <Route path='/settings' render={() => <Settings/>}/>
                     {/*<Profile/>*/}
                     {/*<Dialogs/>*/}
                 </div>
