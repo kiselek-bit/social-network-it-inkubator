@@ -1,7 +1,24 @@
 .dialog {
-    padding: 10px;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+    border-radius: 5px;
 }
 
-.active {
+.active .dialog {
     font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+.dialog img {
+    width: 40px;
+
+    border-radius: 50%;
+    border: 5px solid white;
+}
+
+.dialog div {
+    padding-left: 10px;
 }

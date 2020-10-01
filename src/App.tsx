@@ -9,7 +9,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import News from "./components/news/News";
 import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
-import {DialogsPageType, ProfilePageType, StateType} from './redux/state'
+import {DialogsPageType, NavbarFriendsType, ProfilePageType, StateType} from './redux/state'
 
 type PropsType = {
     state: StateType
@@ -20,12 +20,13 @@ function App(props: PropsType) {
 
     let profileState: ProfilePageType = props.state.profilePage
     let dialogState:DialogsPageType = props.state.dialogsPage
+    let navbarState: NavbarFriendsType = props.state.navbar
 
     return (
         <BrowserRouter>
             <div className="app-wrapper">
                 <Header/>
-                <Nav/>
+                <Nav navbarState={navbarState}/>
                 <div className='app-wrapper-content'>
 
                     <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogState}/>}/>

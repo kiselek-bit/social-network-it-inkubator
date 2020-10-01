@@ -9,8 +9,11 @@ type DialogItemType = {
 
 export const DialogItem = (props: DialogItemType) => {
     return (
-        <div className={s.dialog}>
-            <NavLink to={'/dialogs/'+ props.id} activeClassName={s.active}>{props.name}</NavLink>
-        </div>
+        <NavLink to={'/dialogs/' + props.id} activeClassName={s.active}>
+            <div className={s.dialog}>
+                <img src='https://cdn.jpegmini.com/user/images/slider_puffin_jpegmini_mobile.jpg'/>
+                <div>{props.name}</div>
+            </div>
+        </NavLink>
     )
 }

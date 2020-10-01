@@ -1,0 +1,16 @@
+.friends {
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: xx-large;
+    text-align: center;
+    color: #2C97DE;
+}
+
+.friendsItem{
+    display: flex;
+    text-align: center;
+}
