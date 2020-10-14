@@ -11,9 +11,12 @@ import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
 import {DialogsPageType, NavbarFriendsType, ProfilePageType, StateType} from './redux/state'
 
+
 type PropsType = {
     state: StateType
+    addPost: (text: string) => void
 }
+
 
 
 function App(props: PropsType) {
@@ -30,7 +33,7 @@ function App(props: PropsType) {
                 <div className='app-wrapper-content'>
 
                     <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogState}/>}/>
-                    <Route path='/profile' render={() => <Profile profileState={profileState}/>}/>
+                    <Route path='/profile' render={() => <Profile profileState={profileState} addPost={props.addPost}/>}/>
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>

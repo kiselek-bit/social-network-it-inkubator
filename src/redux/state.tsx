@@ -1,4 +1,5 @@
 import React from "react";
+import {rerender} from "../render";
 
 export type PostType = {
     id: number
@@ -65,4 +66,12 @@ export let state: StateType = {
             {id: 1, name: 'Pieter'}
         ]
     }
+}
+
+ export const addPost = (text: string) => {
+
+    state.profilePage.posts.unshift(
+        {id: 3, message: text, likes: 0}
+    )
+     rerender(state)
 }
