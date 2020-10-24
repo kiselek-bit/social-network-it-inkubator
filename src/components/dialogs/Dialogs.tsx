@@ -1,19 +1,21 @@
-import React, {RefObject} from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {DialogItem} from './dialog/DialogItem';
 import {Message} from './dialog/message/Message';
-import {DialogsPageType, DialogType, MessageType} from "../../redux/state";
+import {
+    ActionsTypes,
+    addMessageActionCreate,
+    DialogsPageType,
+    DialogType,
+    MessageType,
+    updateNewMessageActionCreate
+} from "../../redux/state";
 
-export type DialogDataTypes = {
-    id: number
-    name: string
-}
 type PropsType ={
     dialogsState: DialogsPageType
+    dispatch: (action: ActionsTypes) => void
 }
-type DialogsStateType= {
 
-}
 
 const Dialogs = (props: PropsType) => {
 
@@ -21,11 +23,14 @@ const Dialogs = (props: PropsType) => {
     let messages: Array<MessageType> = props.dialogsState.messages
     let dialogsElements = dialogs.map( d => <DialogItem name={d.name} id={d.id}/>)
     let messagesElements = messages.map( m => <Message message={m.message}/>)
+    let newTextMessage = props.dialogsState.newTextMessage
 
-    let newMessageElement = React.createRef<HTMLTextAreaElement>()
     const sendMessage = () => {
-        let text = newMessageElement.current?.value
-        alert(text)
+        props.dispatch(addMessageActionCreate())
+    }
+    const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        let text: string = e.currentTarget.value
+        props.dispatch(updateNewMessageActionCreate(text))
     }
 
     return (
@@ -36,7 +41,8 @@ const Dialogs = (props: PropsType) => {
             <div>
                 { messagesElements }
                 <div>
-                    <textarea ref={newMessageElement}></textarea>
+                    <textarea onChange={onChangeMessage}
+                              value={newTextMessage}/>
                     <button onClick={sendMessage}>Send</button>
                 </div>
             </div>

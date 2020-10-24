@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Header from "./components/header/Header";
 import Nav from "./components/navigation/Nav";
@@ -9,12 +8,16 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import News from "./components/news/News";
 import Music from "./components/music/Music";
 import Settings from "./components/settings/Settings";
-import {DialogsPageType, NavbarFriendsType, ProfilePageType, StateType} from './redux/state'
+import {ActionsTypes, DialogsPageType, NavbarFriendsType, ProfilePageType, StateType} from './redux/state'
 
 
 type PropsType = {
     state: StateType
-    addPost: (text: string) => void
+    dispatch: (action: ActionsTypes) => void
+    // addPost: () => void
+    // updateNewText: (text: string) => void
+    // addMessage: () => void
+    // updateNewMessage: (text: string) => void
 }
 
 
@@ -32,8 +35,11 @@ function App(props: PropsType) {
                 <Nav navbarState={navbarState}/>
                 <div className='app-wrapper-content'>
 
-                    <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogState}/>}/>
-                    <Route path='/profile' render={() => <Profile profileState={profileState} addPost={props.addPost}/>}/>
+                    <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogState}
+                                                                  dispatch={props.dispatch}/>}/>
+                    <Route path='/profile' render={() => <Profile profileState={profileState}
+                                                                  dispatch={props.dispatch}/>}
+                    />
                     <Route path='/news' render={() => <News/>}/>
                     <Route path='/music' render={() => <Music/>}/>
                     <Route path='/settings' render={() => <Settings/>}/>
