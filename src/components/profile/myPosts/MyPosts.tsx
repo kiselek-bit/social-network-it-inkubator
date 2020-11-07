@@ -1,32 +1,26 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css'
 import Post from "./post/Post";
-import {
-    ActionsTypes,
-    addPostActionCreate,
-    PostType,
-    ProfilePageType,
-    updateNewTextPostActionCreate
-} from "../../../redux/state";
+import {PostType} from "../../../redux/store";
 
 type PropsType = {
-    postState: ProfilePageType
+    posts: Array<PostType>
+    addPost: () => void
     newTextType: string
-    dispatch: (action: ActionsTypes) => void
+    updateNewText: (text: string) => void
 }
 
 const MyPosts = (props: PropsType) => {
+    let postsElements = props.posts.map(p => <Post messages={p.message}
+                                                   key={p.id}
+                                                   likes={p.likes}
+                                                   id={p.id}/>)
 
-    let posts: Array<PostType> = props.postState.posts
-    let postsElements = posts.map(p => <Post messages={p.message}
-                                             likes={p.likes}
-                                             id={p.id}/>)
 
-
-    const addPost = () => props.dispatch(addPostActionCreate())
+    const addPost = () => props.addPost()
     const onChangeArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text: string = e.currentTarget.value
-        props.dispatch(updateNewTextPostActionCreate(text))
+        props.updateNewText(text)
     }
 
     return (

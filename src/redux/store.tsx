@@ -1,3 +1,7 @@
+import {dialogsReducer} from "./dialogsReducer";
+import {profileReducer} from "./profileReducer";
+import {navbarReducer} from "./navbarReducer";
+
 export type PostType = {
     id: number
     message: string
@@ -35,8 +39,8 @@ export type StateType = {
 }
 export type StoreType = {
     _state: StateType
-    _rerenderEntireThree: () => void
-    subscriber: ( callback:() => void ) => void
+    _callSubscriber: () => void
+    subscribe: ( callback:() => void ) => void
     getState: () => StateType
     dispatch: (action: ActionsTypes) => void
 }
@@ -58,19 +62,6 @@ type UpdateNewMessageActionType = {
 export type ActionsTypes = AddPostActionType | UpdateNewTextActionType |
     AddMessageActionType | UpdateNewMessageActionType
 
-const ADD_MESSAGE = 'ADD-MASSAGE'
-const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE'
-const ADD_POST = 'ADD-POST'
-const UPDATE_NEW_TEXT = 'UPDATE-NEW-TEXT'
-
-export const addMessageActionCreate = (): ActionsTypes => ({type: ADD_MESSAGE})
-export const updateNewMessageActionCreate = (text: string): ActionsTypes => {
-    return {type: UPDATE_NEW_MESSAGE, text: text}
-}
-export const addPostActionCreate = (): ActionsTypes => ({type: ADD_POST})
-export const updateNewTextPostActionCreate = (text: string): ActionsTypes => {
-    return {type: UPDATE_NEW_TEXT, text: text}
-}
 
 export let store: StoreType = {
     _state: {
@@ -107,42 +98,18 @@ export let store: StoreType = {
             ]
         }
     },
-    _rerenderEntireThree() {},
-    subscriber(callback: () => void) {
-        this._rerenderEntireThree = callback
+    _callSubscriber() {},
+    subscribe(callback: () => void) {
+        this._callSubscriber = callback
     },
     getState() { return this._state},
 
     dispatch(action) {
-        switch (action.type) {
-            case 'ADD-POST':
-                this._state.profilePage.posts.unshift(
-                    {
-                        id: 3,
-                        message: this._state.profilePage.newTextType,
-                        likes: 0
-                    }
-                )
-                this._state.profilePage.newTextType =''
-                this._rerenderEntireThree()
-                break
-            case 'UPDATE-NEW-TEXT':
-                this._state.profilePage.newTextType = action.text
-                this._rerenderEntireThree()
-                break
-            case 'ADD-MASSAGE':
-                let newMessage = {
-                    id:6,
-                    message: this._state.dialogsPage.newTextMessage
-                }
-                this._state.dialogsPage.messages.push(newMessage)
-                this._rerenderEntireThree()
-                this._state.dialogsPage.newTextMessage = ''
-                break
-            case 'UPDATE-NEW-MESSAGE':
-                this._state.dialogsPage.newTextMessage = action.text
-                this._rerenderEntireThree()
-                break
-        }
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.navbar = navbarReducer(this._state.navbar, action)
+
+        this._callSubscriber()
+
     },
 }

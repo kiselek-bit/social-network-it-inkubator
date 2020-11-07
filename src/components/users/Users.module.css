@@ -1,0 +1,15 @@
+.avatar img {
+    width: 150px;
+}
+.userWrapper {
+    display: flex;
+}
+.userInfo {
+    width: 100%;
+    padding: 0 40px;
+}
+.location {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
