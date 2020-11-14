@@ -1,6 +1,7 @@
 import React from "react";
 import s from './Users.module.css'
 import {UserType} from "../../redux/usersReducer";
+import axios from 'axios'
 
 type PropsType = {
     users: Array<UserType>
@@ -12,53 +13,59 @@ type PropsType = {
 export function Users(props: PropsType) {
 
     if(props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                name: 'Andrew',
-                age: 22,
-                city: "Minsk",
-                country: 'Belarus',
-                isFriend: true,
-                profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-            },
-            {
-                id: 2,
-                name: 'Alex',
-                age: 29,
-                city: "Kiev",
-                country: 'Ukraine',
-                isFriend: false,
-                profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-            },
-            {
-                id: 3,
-                name: 'Mary',
-                age: 17,
-                city: "Minsk",
-                country: 'Belarus',
-                isFriend: true,
-                profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-            },
-            {
-                id: 4,
-                name: 'Pieter',
-                age: 26,
-                city: "Moscow",
-                country: 'Russia',
-                isFriend: true,
-                profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-            },
-            {
-                id: 5,
-                name: 'Helen',
-                age: 32,
-                city: "Berlin",
-                country: 'Germany',
-                isFriend: false,
-                profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-            },
-        ])
+
+        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+            .then(response => {
+                console.log(response.data['items'])
+                props.setUsers(response.data['items'])
+            })
+        // props.setUsers([
+        //     {
+        //         id: 1,
+        //         name: 'Andrew',
+        //         age: 22,
+        //         city: "Minsk",
+        //         country: 'Belarus',
+        //         isFriend: true,
+        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
+        //     },
+        //     {
+        //         id: 2,
+        //         name: 'Alex',
+        //         age: 29,
+        //         city: "Kiev",
+        //         country: 'Ukraine',
+        //         isFriend: false,
+        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
+        //     },
+        //     {
+        //         id: 3,
+        //         name: 'Mary',
+        //         age: 17,
+        //         city: "Minsk",
+        //         country: 'Belarus',
+        //         isFriend: true,
+        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
+        //     },
+        //     {
+        //         id: 4,
+        //         name: 'Pieter',
+        //         age: 26,
+        //         city: "Moscow",
+        //         country: 'Russia',
+        //         isFriend: true,
+        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
+        //     },
+        //     {
+        //         id: 5,
+        //         name: 'Helen',
+        //         age: 32,
+        //         city: "Berlin",
+        //         country: 'Germany',
+        //         isFriend: false,
+        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
+        //     },
+        // ])
     }
 
     let usersList = props.users.map(u => {

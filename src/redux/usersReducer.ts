@@ -23,7 +23,7 @@ type SetUsersActionType = {
     type: 'SET-USERS'
     users: Array<UserType>
 }
-type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
+export type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
     SetUsersActionType
 
 const ADD_TO_FRIENDS = 'ADD-TO-FRIENDS'
@@ -95,7 +95,6 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                     return u
                 })
             }
-            debugger
             return newState
         case REMOVE_FROM_FRIENDS:
             return {

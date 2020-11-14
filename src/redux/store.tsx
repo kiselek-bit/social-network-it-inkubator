@@ -45,17 +45,17 @@ export type StoreType = {
     dispatch: (action: ActionsTypes) => void
 }
 
-type AddPostActionType = {
+export type AddPostActionType = {
     type: 'ADD-POST'
 }
-type UpdateNewTextActionType = {
+export type UpdateNewTextActionType = {
     type: 'UPDATE-NEW-TEXT'
     text: string
 }
-type AddMessageActionType = {
+export type AddMessageActionType = {
     type: 'ADD-MASSAGE'
 }
-type UpdateNewMessageActionType = {
+export type UpdateNewMessageActionType = {
     type: 'UPDATE-NEW-MESSAGE'
     text: string
 }

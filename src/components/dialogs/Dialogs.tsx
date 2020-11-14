@@ -4,7 +4,7 @@ import {DialogItem} from './dialog/DialogItem';
 import {Message} from './dialog/message/Message';
 import {DialogType,MessageType} from "../../redux/store";
 
-type PropsType ={
+export type DialogsPropsType ={
     sendMessage: () => void
     updateNewMessage: (text: string) => void
     newTextMessage: string
@@ -13,7 +13,7 @@ type PropsType ={
 }
 
 
-const Dialogs = (props: PropsType) => {
+const Dialogs = (props: DialogsPropsType) => {
     let dialogsElements = props.dialogs.map( (d,i) => <DialogItem key={i} name={d.name} id={d.id}/>)
     let messagesElements = props.messages.map( (m,i) => <Message key={i} message={m.message}/>)
 
