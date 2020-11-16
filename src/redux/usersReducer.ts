@@ -5,7 +5,10 @@ export type UserType = {
     city: string
     country: string
     isFriend: boolean
-    profileImg: string
+    photos: {
+        small: string
+        large: string
+    }
 }
 export type UsersType = {
     users: Array<UserType>
@@ -110,9 +113,10 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                 })
             };
         case SET_USERS:
+            debugger
             return {
                 ...state,
-                users: [...state.users, ...action.users]
+                users: [...action.users]
             }
         default:
             return state
@@ -126,5 +130,6 @@ export const removeFromFriendsAC = (userId: number): RemoveFromFriendsActionType
     return {type: REMOVE_FROM_FRIENDS, userId: userId}
 }
 export const setUsersAC = (users: Array<UserType>): SetUsersActionType => {
+    debugger
     return {type: SET_USERS, users: users}
 }

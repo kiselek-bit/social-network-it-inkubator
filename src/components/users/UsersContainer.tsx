@@ -15,6 +15,7 @@ type UsersStateType = {
 }
 
 const mapStateToProps = (state: UsersStateType) => {
+
     return {
         users: state.usersPage.users
     }
@@ -28,6 +29,7 @@ const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
             dispatch(removeFromFriendsAC(userId))
         },
         setUsers: (users: Array<UserType>) => {
+            debugger
             dispatch(setUsersAC(users))
         }
     }

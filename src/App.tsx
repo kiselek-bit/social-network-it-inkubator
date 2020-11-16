@@ -26,7 +26,6 @@ type PropsType = {
 
 function App(props: PropsType) {
 
-
     return (
         <BrowserRouter>
             <div className="app-wrapper">

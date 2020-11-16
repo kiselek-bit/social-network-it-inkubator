@@ -2,6 +2,7 @@ import React from "react";
 import s from './Users.module.css'
 import {UserType} from "../../redux/usersReducer";
 import axios from 'axios'
+import userPhoto from '../../assets/images/man-300x300.png'
 
 type PropsType = {
     users: Array<UserType>
@@ -10,86 +11,39 @@ type PropsType = {
     setUsers: (users: Array<UserType>) => void
 }
 
-export function Users(props: PropsType) {
+export class Users extends React.Component<PropsType, {}> {
 
-    if(props.users.length === 0) {
-
-        axios.get("https://social-network.samuraijs.com/api/1.0/users")
-            .then(response => {
-                console.log(response.data['items'])
-                props.setUsers(response.data['items'])
-            })
-        // props.setUsers([
-        //     {
-        //         id: 1,
-        //         name: 'Andrew',
-        //         age: 22,
-        //         city: "Minsk",
-        //         country: 'Belarus',
-        //         isFriend: true,
-        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        //     },
-        //     {
-        //         id: 2,
-        //         name: 'Alex',
-        //         age: 29,
-        //         city: "Kiev",
-        //         country: 'Ukraine',
-        //         isFriend: false,
-        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        //     },
-        //     {
-        //         id: 3,
-        //         name: 'Mary',
-        //         age: 17,
-        //         city: "Minsk",
-        //         country: 'Belarus',
-        //         isFriend: true,
-        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        //     },
-        //     {
-        //         id: 4,
-        //         name: 'Pieter',
-        //         age: 26,
-        //         city: "Moscow",
-        //         country: 'Russia',
-        //         isFriend: true,
-        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        //     },
-        //     {
-        //         id: 5,
-        //         name: 'Helen',
-        //         age: 32,
-        //         city: "Berlin",
-        //         country: 'Germany',
-        //         isFriend: false,
-        //         profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        //     },
-        // ])
+    componentDidMount() {
+        alert('I render')
+            axios.get("https://social-network.samuraijs.com/api/1.0/users")
+                .then(response => {
+                    this.props.setUsers(response.data['items'])
+                })
     }
 
-    let usersList = props.users.map(u => {
+    render() {
         return (
-            <div key={u.id} className={s.userWrapper}>
-                <div className={s.avatar}><img src={u.profileImg}/></div>
-                <div className={s.userInfo}>
-                    <h3>{u.name}</h3>
-                    <div>Age: {u.age}</div>
-                    <div>{u.isFriend ?
-                        <button onClick={() => {props.removeFriend(u.id)}}>Remove from friends</button> :
-                        <button onClick={() => {props.addFriend(u.id)}}>Add to friends</button>}
+            <div className={s.wrapper}>
+                {this.props.users.map((u: any) => <div key={u.id} className={s.userWrapper}>
+                    <div className={s.avatar}><img src={u.photos.small != null ? u.photos.small : userPhoto}/></div>
+                    <div className={s.userInfo}>
+                        <h3>{u.name}</h3>
+                        <div>Age: {u.age}</div>
+                        <div>{u.isFriend ?
+                            <button onClick={() => {
+                                this.props.removeFriend(u.id)
+                            }}>Remove from friends</button> :
+                            <button onClick={() => {
+                                this.props.addFriend(u.id)
+                            }}>Add to friends</button>}
+                        </div>
+                        <div className={s.location}>
+                            <span>{u.city},</span>
+                            <span>{u.country}</span>
+                        </div>
                     </div>
-                    <div className={s.location}>
-                        <span>{u.city},</span>
-                        <span>{u.country}</span>
-                    </div>
-                </div>
+                </div>)}
             </div>
-        )
-    })
-    return (
-        <div className={s.wrapper}>
-            {usersList}
-        </div>
-    )
+        );
+    }
 }
