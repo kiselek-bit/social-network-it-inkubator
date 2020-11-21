@@ -16,6 +16,7 @@ export type UsersType = {
     pageSize: number
     currentPage: number
     totalUsersCount: number
+    isFetching: boolean
 }
 
 type AddToFriendsActionType = {
@@ -38,16 +39,22 @@ type SetTotalUsersCountActionType = {
     type: ACTION_TYPES.SET_TOTAL_USERS_COUNT
     totalUsersCount: number
 }
+type ToggleIsFetchingActionType = {
+    type: ACTION_TYPES.TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
 
 export type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
-    SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType
+    SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType |
+    ToggleIsFetchingActionType
 
 enum ACTION_TYPES {
     ADD_TO_FRIENDS = 'ADD-TO-FRIENDS',
     REMOVE_FROM_FRIENDS = 'REMOVE-FROM-FRIENDS',
     SET_USERS = 'SET-USERS',
     SET_CURRENT_PAGE = 'SET-CURRENT-PAGE',
-    SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
+    SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
+    TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING',
 }
 
 let initialState: UsersType = {
@@ -55,6 +62,7 @@ let initialState: UsersType = {
     totalUsersCount: 0,
     currentPage: 1,
     pageSize: 10,
+    isFetching: true
 }
 
 export const usersReducer = (state: UsersType = initialState, action: UsersActionsType): UsersType => {
@@ -95,6 +103,8 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
             return {...state, currentPage: action.currentPage}
         case ACTION_TYPES.SET_TOTAL_USERS_COUNT:
             return {...state, totalUsersCount: action.totalUsersCount}
+        case ACTION_TYPES.TOGGLE_IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
@@ -114,4 +124,7 @@ export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType 
 }
 export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountActionType => {
     return {type: ACTION_TYPES.SET_TOTAL_USERS_COUNT, totalUsersCount}
+}
+export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingActionType => {
+    return {type: ACTION_TYPES.TOGGLE_IS_FETCHING, isFetching}
 }
