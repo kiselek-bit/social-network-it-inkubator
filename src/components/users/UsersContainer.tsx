@@ -3,21 +3,20 @@ import {connect} from "react-redux";
 import {Users} from "./Users";
 import {
     addToFriendsAC,
-    removeFromFriendsAC,
+    removeFromFriendsAC, setCurrentPageAC, setTotalUsersCountAC,
     setUsersAC,
-    UsersActionsType,
-    UsersType,
+    UsersActionsType, UsersType,
     UserType
 } from "../../redux/usersReducer";
+import {RootStore} from "../../redux/reduxStore";
 
-type UsersStateType = {
-    usersPage: UsersType
-}
 
-const mapStateToProps = (state: UsersStateType) => {
-
+const mapStateToProps = (state: RootStore): UsersType => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        currentPage: state.usersPage.currentPage,
+        totalUsersCount: state.usersPage.totalUsersCount,
     }
 }
 const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
@@ -29,9 +28,14 @@ const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
             dispatch(removeFromFriendsAC(userId))
         },
         setUsers: (users: Array<UserType>) => {
-            debugger
             dispatch(setUsersAC(users))
-        }
+        },
+        setCurrentPage: (currentPage: number) => {
+            dispatch(setCurrentPageAC(currentPage))
+        },
+        setTotalUsersCount: (totalUsersCount: number) => {
+            dispatch(setTotalUsersCountAC(totalUsersCount))
+        },
     }
 
 }

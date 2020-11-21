@@ -1,3 +1,4 @@
+
 export type UserType = {
     id: number
     name: string
@@ -12,6 +13,9 @@ export type UserType = {
 }
 export type UsersType = {
     users: Array<UserType>
+    pageSize: number
+    currentPage: number
+    totalUsersCount: number
 }
 
 type AddToFriendsActionType = {
@@ -26,66 +30,36 @@ type SetUsersActionType = {
     type: 'SET-USERS'
     users: Array<UserType>
 }
-export type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
-    SetUsersActionType
+type SetCurrentPageActionType = {
+    type: ACTION_TYPES.SET_CURRENT_PAGE
+    currentPage: number
+}
+type SetTotalUsersCountActionType = {
+    type: ACTION_TYPES.SET_TOTAL_USERS_COUNT
+    totalUsersCount: number
+}
 
-const ADD_TO_FRIENDS = 'ADD-TO-FRIENDS'
-const REMOVE_FROM_FRIENDS = 'REMOVE-FROM-FRIENDS'
-const SET_USERS = 'SET-USERS'
+export type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
+    SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType
+
+enum ACTION_TYPES {
+    ADD_TO_FRIENDS = 'ADD-TO-FRIENDS',
+    REMOVE_FROM_FRIENDS = 'REMOVE-FROM-FRIENDS',
+    SET_USERS = 'SET-USERS',
+    SET_CURRENT_PAGE = 'SET-CURRENT-PAGE',
+    SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
+}
 
 let initialState: UsersType = {
-    users: [
-        // {
-        //     id: 1,
-        //     name: 'Andrew',
-        //     age: 22,
-        //     city: "Minsk",
-        //     country: 'Belarus',
-        //     isFriend: true,
-        //     profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        // },
-        // {
-        //     id: 2,
-        //     name: 'Alex',
-        //     age: 29,
-        //     city: "Kiev",
-        //     country: 'Ukraine',
-        //     isFriend: false,
-        //     profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        // },
-        // {
-        //     id: 3,
-        //     name: 'Mary',
-        //     age: 17,
-        //     city: "Minsk",
-        //     country: 'Belarus',
-        //     isFriend: true,
-        //     profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        // },
-        // {
-        //     id: 4,
-        //     name: 'Pieter',
-        //     age: 26,
-        //     city: "Moscow",
-        //     country: 'Russia',
-        //     isFriend: true,
-        //     profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        // },
-        // {
-        //     id: 5,
-        //     name: 'Helen',
-        //     age: 32,
-        //     city: "Berlin",
-        //     country: 'Germany',
-        //     isFriend: false,
-        //     profileImg: 'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png'
-        // },
-    ]
+    users: [],
+    totalUsersCount: 0,
+    currentPage: 1,
+    pageSize: 10,
 }
 
 export const usersReducer = (state: UsersType = initialState, action: UsersActionsType): UsersType => {
     switch (action.type) {
-        case ADD_TO_FRIENDS:
+        case ACTION_TYPES.ADD_TO_FRIENDS:
             let newState = {
                 ...state,
                 users: state.users.map(u => {
@@ -99,7 +73,7 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                 })
             }
             return newState
-        case REMOVE_FROM_FRIENDS:
+        case ACTION_TYPES.REMOVE_FROM_FRIENDS:
             return {
                 ...state,
                 users: state.users.map(u => {
@@ -112,24 +86,32 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                     return u
                 })
             };
-        case SET_USERS:
-            debugger
+        case ACTION_TYPES.SET_USERS:
             return {
                 ...state,
-                users: [...action.users]
+                users: action.users
             }
+        case ACTION_TYPES.SET_CURRENT_PAGE:
+            return {...state, currentPage: action.currentPage}
+        case ACTION_TYPES.SET_TOTAL_USERS_COUNT:
+            return {...state, totalUsersCount: action.totalUsersCount}
         default:
             return state
     }
 }
 
 export const addToFriendsAC = (userId: number): AddToFriendsActionType => {
-    return {type: ADD_TO_FRIENDS, userId: userId}
+    return {type: ACTION_TYPES.ADD_TO_FRIENDS, userId: userId}
 }
 export const removeFromFriendsAC = (userId: number): RemoveFromFriendsActionType => {
-    return {type: REMOVE_FROM_FRIENDS, userId: userId}
+    return {type: ACTION_TYPES.REMOVE_FROM_FRIENDS, userId: userId}
 }
 export const setUsersAC = (users: Array<UserType>): SetUsersActionType => {
-    debugger
-    return {type: SET_USERS, users: users}
+    return {type: ACTION_TYPES.SET_USERS, users: users}
+}
+export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType => {
+    return {type: ACTION_TYPES.SET_CURRENT_PAGE, currentPage}
+}
+export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountActionType => {
+    return {type: ACTION_TYPES.SET_TOTAL_USERS_COUNT, totalUsersCount}
 }
