@@ -110,21 +110,21 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
     }
 }
 
-export const addToFriendsAC = (userId: number): AddToFriendsActionType => {
+export const addFriend = (userId: number): AddToFriendsActionType => {
     return {type: ACTION_TYPES.ADD_TO_FRIENDS, userId: userId}
 }
-export const removeFromFriendsAC = (userId: number): RemoveFromFriendsActionType => {
+export const removeFriend = (userId: number): RemoveFromFriendsActionType => {
     return {type: ACTION_TYPES.REMOVE_FROM_FRIENDS, userId: userId}
 }
-export const setUsersAC = (users: Array<UserType>): SetUsersActionType => {
+export const setUsers = (users: Array<UserType>): SetUsersActionType => {
     return {type: ACTION_TYPES.SET_USERS, users: users}
 }
-export const setCurrentPageAC = (currentPage: number): SetCurrentPageActionType => {
+export const setCurrentPage = (currentPage: number): SetCurrentPageActionType => {
     return {type: ACTION_TYPES.SET_CURRENT_PAGE, currentPage}
 }
-export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountActionType => {
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountActionType => {
     return {type: ACTION_TYPES.SET_TOTAL_USERS_COUNT, totalUsersCount}
 }
-export const toggleIsFetchingAC = (isFetching: boolean): ToggleIsFetchingActionType => {
+export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => {
     return {type: ACTION_TYPES.TOGGLE_IS_FETCHING, isFetching}
 }

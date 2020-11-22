@@ -1,10 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    addToFriendsAC,
-    removeFromFriendsAC, setCurrentPageAC, setTotalUsersCountAC,
-    setUsersAC, toggleIsFetchingAC,
-    UsersActionsType, UsersType,
+    addFriend, removeFriend, setCurrentPage, setTotalUsersCount, setUsers, toggleIsFetching,
+    UsersType,
     UserType
 } from "../../redux/usersReducer";
 import {RootStore} from "../../redux/reduxStore";
@@ -71,28 +69,35 @@ const mapStateToProps = (state: RootStore): UsersType => {
         isFetching: state.usersPage.isFetching
     }
 }
-const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
-    return {
-        addFriend: (userId: number) => {
-            dispatch(addToFriendsAC(userId))
-        },
-        removeFriend: (userId: number) => {
-            dispatch(removeFromFriendsAC(userId))
-        },
-        setUsers: (users: Array<UserType>) => {
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage: (currentPage: number) => {
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setTotalUsersCount: (totalUsersCount: number) => {
-            dispatch(setTotalUsersCountAC(totalUsersCount))
-        },
-        toggleIsFetching: (isFetching: boolean) => {
-            dispatch(toggleIsFetchingAC(isFetching))
-        }
-    }
+// const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
+//     return {
+//         addFriend: (userId: number) => {
+//             dispatch(addToFriendsAC(userId))
+//         },
+//         removeFriend: (userId: number) => {
+//             dispatch(removeFromFriendsAC(userId))
+//         },
+//         setUsers: (users: Array<UserType>) => {
+//             dispatch(setUsersAC(users))
+//         },
+//         setCurrentPage: (currentPage: number) => {
+//             dispatch(setCurrentPageAC(currentPage))
+//         },
+//         setTotalUsersCount: (totalUsersCount: number) => {
+//             dispatch(setTotalUsersCountAC(totalUsersCount))
+//         },
+//         toggleIsFetching: (isFetching: boolean) => {
+//             dispatch(toggleIsFetchingAC(isFetching))
+//         }
+//     }
+//
+// }
 
-}
-
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersContainerAPI)
+export const UsersContainer = connect(mapStateToProps, {
+    addFriend,
+    removeFriend,
+    setUsers,
+    setCurrentPage,
+    setTotalUsersCount,
+    toggleIsFetching
+})(UsersContainerAPI)

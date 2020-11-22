@@ -3,6 +3,7 @@ import s from './Users.module.css'
 import {UserType} from "../../redux/usersReducer";
 import userPhoto from '../../assets/images/man-300x300.png'
 import {Preloader} from "../common/preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 type PropsType = {
     users: Array<UserType>
@@ -34,7 +35,11 @@ export const Users = (props: PropsType) => {
                 })}
                 </div>
                 {props.users.map((u: any) => <div key={u.id} className={s.userWrapper}>
-                    <div className={s.avatar}><img src={u.photos.small != null ? u.photos.small : userPhoto}/></div>
+                    <div className={s.avatar}>
+                        <NavLink to={`/profile/${u.id}`}>
+                            <img src={u.photos.small != null ? u.photos.small : userPhoto}/>
+                        </NavLink>
+                    </div>
                     <div className={s.userInfo}>
                         <h3>{u.name}</h3>
                         <div>Age: {u.age}</div>
