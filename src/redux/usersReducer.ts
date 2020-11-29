@@ -5,7 +5,7 @@ export type UserType = {
     age: number
     city: string
     country: string
-    isFriend: boolean
+    followed: boolean
     photos: {
         small: string
         large: string
@@ -74,7 +74,7 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                     if (u.id === action.userId) {
                         return {
                             ...u,
-                            isFriend: true
+                            followed: true
                         }
                     }
                     return u
@@ -88,16 +88,18 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
                     if (u.id === action.userId) {
                         return {
                             ...u,
-                            isFriend: false
+                            followed: false
                         }
                     }
                     return u
                 })
             };
         case ACTION_TYPES.SET_USERS:
+            console.log(action.users)
             return {
                 ...state,
-                users: action.users
+                users: [...action.users]
+                    // action.users.map((u, i) => ({...u, isFriend: action.users[i]}))],
             }
         case ACTION_TYPES.SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage}

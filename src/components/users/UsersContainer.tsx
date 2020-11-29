@@ -27,7 +27,12 @@ class UsersContainerAPI extends React.Component<PropsType, {}> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+            withCredentials: true,
+            headers: {
+                "API-KEY": '433520f3-b807-456c-908f-67604d9c56a7'
+            }
+        })
             .then(response => {
                 this.props.toggleIsFetching(false)
                 this.props.setUsers(response.data['items'])
@@ -38,7 +43,12 @@ class UsersContainerAPI extends React.Component<PropsType, {}> {
     setCurrentPage = (p: number) => {
         this.props.toggleIsFetching(true)
         this.props.setCurrentPage(p)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${p}&count=${this.props.pageSize}`, {
+            withCredentials: true,
+            headers: {
+                "API-KEY": '433520f3-b807-456c-908f-67604d9c56a7'
+            }
+        })
             .then(response => {
                 this.props.setUsers(response.data['items'])
                 this.props.toggleIsFetching(false)
@@ -69,29 +79,6 @@ const mapStateToProps = (state: RootStore): UsersType => {
         isFetching: state.usersPage.isFetching
     }
 }
-// const mapDispatchToProps = (dispatch: (action: UsersActionsType) => void) => {
-//     return {
-//         addFriend: (userId: number) => {
-//             dispatch(addToFriendsAC(userId))
-//         },
-//         removeFriend: (userId: number) => {
-//             dispatch(removeFromFriendsAC(userId))
-//         },
-//         setUsers: (users: Array<UserType>) => {
-//             dispatch(setUsersAC(users))
-//         },
-//         setCurrentPage: (currentPage: number) => {
-//             dispatch(setCurrentPageAC(currentPage))
-//         },
-//         setTotalUsersCount: (totalUsersCount: number) => {
-//             dispatch(setTotalUsersCountAC(totalUsersCount))
-//         },
-//         toggleIsFetching: (isFetching: boolean) => {
-//             dispatch(toggleIsFetchingAC(isFetching))
-//         }
-//     }
-//
-// }
 
 export const UsersContainer = connect(mapStateToProps, {
     addFriend,

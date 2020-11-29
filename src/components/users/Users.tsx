@@ -4,6 +4,7 @@ import {UserType} from "../../redux/usersReducer";
 import userPhoto from '../../assets/images/man-300x300.png'
 import {Preloader} from "../common/preloader/Preloader";
 import {NavLink} from "react-router-dom";
+import axios from 'axios'
 
 type PropsType = {
     users: Array<UserType>
@@ -43,12 +44,32 @@ export const Users = (props: PropsType) => {
                     <div className={s.userInfo}>
                         <h3>{u.name}</h3>
                         <div>Age: {u.age}</div>
-                        <div>{u.isFriend ?
+                        <div>{u.followed ?
                             <button onClick={() => {
-                                props.removeFriend(u.id)
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{
+                                    withCredentials: true,
+                                    headers: {
+                                    'API-KEY': '433520f3-b807-456c-908f-67604d9c56a7'
+                                    }
+                                })
+                                    .then((response => {
+                                        if(response.data.resultCode === 0){
+                                            props.removeFriend(u.id)
+                                        }
+                                    }))
                             }}>Remove from friends</button> :
                             <button onClick={() => {
-                                props.addFriend(u.id)
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
+                                    withCredentials: true,
+                                    headers: {
+                                    "API-KEY": '433520f3-b807-456c-908f-67604d9c56a7'
+                                    }
+                                })
+                                    .then((response => {
+                                        if(response.data.resultCode === 0){
+                                            props.addFriend(u.id)
+                                        }
+                                    }))
                             }}>Add to friends</button>}
                         </div>
                         <div className={s.location}>
