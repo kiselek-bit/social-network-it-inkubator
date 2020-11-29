@@ -8,7 +8,6 @@ type PropsType = {
 }
 
 export const ProfileInfo = (props: PropsType) => {
-    console.log(props.profile)
     return (
         <div>
             <div className={s.image}>
