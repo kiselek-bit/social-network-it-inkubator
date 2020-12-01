@@ -15,6 +15,8 @@ type PropsType = {
     removeFriend: (userId: number) => void
     setCurrentPage: (currentPage: number) => void
     isFetching: boolean
+    followingInProgress: number[]
+    setFollowingInProgress: (followingInProgress: boolean, id: number) => void
 }
 
 export const Users = (props: PropsType) => {
@@ -45,7 +47,8 @@ export const Users = (props: PropsType) => {
                         <h3>{u.name}</h3>
                         <div>Age: {u.age}</div>
                         <div>{u.followed ?
-                            <button onClick={() => {
+                            <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setFollowingInProgress(true, u.id)
                                 axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{
                                     withCredentials: true,
                                     headers: {
@@ -56,9 +59,11 @@ export const Users = (props: PropsType) => {
                                         if(response.data.resultCode === 0){
                                             props.removeFriend(u.id)
                                         }
+                                        props.setFollowingInProgress(false, u.id)
                                     }))
                             }}>Remove from friends</button> :
-                            <button onClick={() => {
+                            <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
+                                props.setFollowingInProgress(true, u.id)
                                 axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
                                     withCredentials: true,
                                     headers: {
@@ -69,6 +74,7 @@ export const Users = (props: PropsType) => {
                                         if(response.data.resultCode === 0){
                                             props.addFriend(u.id)
                                         }
+                                        props.setFollowingInProgress(false, u.id)
                                     }))
                             }}>Add to friends</button>}
                         </div>

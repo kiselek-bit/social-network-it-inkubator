@@ -17,6 +17,7 @@ export type UsersType = {
     currentPage: number
     totalUsersCount: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 
 type AddToFriendsActionType = {
@@ -43,10 +44,15 @@ type ToggleIsFetchingActionType = {
     type: ACTION_TYPES.TOGGLE_IS_FETCHING
     isFetching: boolean
 }
+type FollowingInProgressActionType = {
+    type: ACTION_TYPES.FOLLOWING_IN_PROGRESS
+    followingInProgress: boolean
+    id: number
+}
 
 export type UsersActionsType = AddToFriendsActionType | RemoveFromFriendsActionType |
     SetUsersActionType | SetCurrentPageActionType | SetTotalUsersCountActionType |
-    ToggleIsFetchingActionType
+    ToggleIsFetchingActionType | FollowingInProgressActionType
 
 enum ACTION_TYPES {
     ADD_TO_FRIENDS = 'ADD-TO-FRIENDS',
@@ -55,6 +61,7 @@ enum ACTION_TYPES {
     SET_CURRENT_PAGE = 'SET-CURRENT-PAGE',
     SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
     TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING',
+    FOLLOWING_IN_PROGRESS = 'FOLLOWING_IN_PROGRESS'
 }
 
 let initialState: UsersType = {
@@ -62,7 +69,8 @@ let initialState: UsersType = {
     totalUsersCount: 0,
     currentPage: 1,
     pageSize: 10,
-    isFetching: true
+    isFetching: true,
+    followingInProgress: []
 }
 
 export const usersReducer = (state: UsersType = initialState, action: UsersActionsType): UsersType => {
@@ -107,6 +115,10 @@ export const usersReducer = (state: UsersType = initialState, action: UsersActio
             return {...state, totalUsersCount: action.totalUsersCount}
         case ACTION_TYPES.TOGGLE_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
+        case ACTION_TYPES.FOLLOWING_IN_PROGRESS:
+            return {...state, followingInProgress: action.followingInProgress
+                    ? [...state.followingInProgress, action.id]
+            : state.followingInProgress.filter(id => id !== action.id)}
         default:
             return state
     }
@@ -129,4 +141,7 @@ export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountA
 }
 export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => {
     return {type: ACTION_TYPES.TOGGLE_IS_FETCHING, isFetching}
+}
+export const setFollowingInProgress = (followingInProgress: boolean, id: number): FollowingInProgressActionType => {
+    return {type: ACTION_TYPES.FOLLOWING_IN_PROGRESS, followingInProgress, id}
 }

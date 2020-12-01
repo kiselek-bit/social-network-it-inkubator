@@ -7,23 +7,6 @@ type PropsType = {
 
 }
 
-//
-// const MyPostsContainer = (props: PropsType) => {
-//
-//     const addPost = () => props.store.dispatch(addPostActionCreate())
-//     const updateNewText = (text: string) => {
-//         props.store.dispatch(updateNewTextPostActionCreate(text))
-//     }
-//
-//     return (
-//         <div>
-//             <MyPosts posts={props.store.getState().profilePage.posts}
-//                      addPost={addPost}
-//                      newTextType={props.store.getState().profilePage.newTextType}
-//                      updateNewText={updateNewText}/>
-//         </div>
-//     )
-// }
 const mapStateToProps = (state: any) => {
     return {
         posts: state.profilePage.posts,
