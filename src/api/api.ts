@@ -16,6 +16,12 @@ export const usersAPI = {
                 return response.data
             })
     },
+    follow(userId: number) {
+        return instance.post(`/follow/${userId}`)
+    },
+    unfollow(userId: number) {
+        return instance.delete(`/follow/${userId}`)
+    },
 }
 export const profileAPI = {
     getUserProfile(userId: ReactText) {

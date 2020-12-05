@@ -1,12 +1,10 @@
 import React from 'react';
 import s from './Profile.module.css'
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
 import {RootStore} from "../../redux/reduxStore";
-import {setUserProfile} from "../../redux/profileReducer";
-import {RouteComponentProps, withRouter} from "react-router";
-import {profileAPI} from "../../api/api";
+import {getProfile} from "../../redux/profileReducer";
+import {Redirect, RouteComponentProps, withRouter} from "react-router";
 
 
 export type ProfileType = {
@@ -23,9 +21,10 @@ export type ProfileType = {
 }
 type MapStatePropsType = {
     profile: ProfileType
+    isAuth: boolean
 }
 type MapDispatchPropsType = {
-    setUserProfile: (profile: ProfileType) => void
+    getProfile: (profileId: number) => void
 }
 type OwnPropsType = MapDispatchPropsType & MapStatePropsType
 type PathParamsType = {
@@ -36,15 +35,15 @@ type PropsType = RouteComponentProps<PathParamsType> & OwnPropsType
 class ProfileContainerAPI extends React.Component<PropsType, {}> {
 
     componentDidMount() {
-        let userId = this.props.match.params.userId? this.props.match.params.userId: 2
+        let userId = this.props.match.params.userId? this.props.match.params.userId: 12396
 
-        profileAPI.getUserProfile(userId)
-            .then(response => {
-                this.props.setUserProfile(response.data)
-            })
+        this.props.getProfile(+userId)
     }
 
     render() {
+        if(!this.props.isAuth) {
+            return <Redirect to={'/login'}/>
+        }
         return <div className={s.content}>
             <Profile {...this.props} profile = {this.props.profile}/>
         </div>
@@ -53,11 +52,12 @@ class ProfileContainerAPI extends React.Component<PropsType, {}> {
 
 const mapStateToProps = (state: RootStore): MapStatePropsType => {
     return {
-        profile: state.profilePage.profile
+        profile: state.profilePage.profile,
+        isAuth: state.auth.isAuth,
     }
 }
 const WithRouterComponentProfile = withRouter(ProfileContainerAPI)
 
-const ProfileContainer = connect(mapStateToProps, {setUserProfile})(WithRouterComponentProfile)
+const ProfileContainer = connect(mapStateToProps, {getProfile})(WithRouterComponentProfile)
 
 export default ProfileContainer;

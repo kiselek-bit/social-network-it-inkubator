@@ -1,3 +1,4 @@
+import {authAPI} from "../api/api";
 
 
 export type UserDataType = {
@@ -6,7 +7,6 @@ export type UserDataType = {
     email: string | null
     isAuth: boolean
 }
-
 type SetUserDataActionType = {
     type: ACTION_TYPES.SET_USER_DATA
     id: number | null
@@ -43,4 +43,12 @@ export const authReducer = (state: UserDataType = initialState, action: SetUserD
 
 export const setAuthUserData = (data: UserDataType, isAuth: boolean): SetUserDataActionType => {
     return {type: ACTION_TYPES.SET_USER_DATA, id: data.id, email: data.email, login: data.login, isAuth}
+}
+
+export const isAuthorized = () => (dispatch: any) => {
+    authAPI.checkAuth()
+        .then((data) => {
+            console.log(data)
+            dispatch(setAuthUserData(data.data, data.resultCode === 0))
+        })
 }

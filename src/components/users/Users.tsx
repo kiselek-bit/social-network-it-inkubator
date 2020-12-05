@@ -4,19 +4,17 @@ import {UserType} from "../../redux/usersReducer";
 import userPhoto from '../../assets/images/man-300x300.png'
 import {Preloader} from "../common/preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import axios from 'axios'
 
 type PropsType = {
     users: Array<UserType>
     pageSize: number
     currentPage: number
     totalUsersCount: number
-    addFriend: (userId: number) => void
-    removeFriend: (userId: number) => void
     setCurrentPage: (currentPage: number) => void
     isFetching: boolean
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
     followingInProgress: number[]
-    setFollowingInProgress: (followingInProgress: boolean, id: number) => void
 }
 
 export const Users = (props: PropsType) => {
@@ -48,34 +46,10 @@ export const Users = (props: PropsType) => {
                         <div>Age: {u.age}</div>
                         <div>{u.followed ?
                             <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                props.setFollowingInProgress(true, u.id)
-                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,{
-                                    withCredentials: true,
-                                    headers: {
-                                    'API-KEY': '433520f3-b807-456c-908f-67604d9c56a7'
-                                    }
-                                })
-                                    .then((response => {
-                                        if(response.data.resultCode === 0){
-                                            props.removeFriend(u.id)
-                                        }
-                                        props.setFollowingInProgress(false, u.id)
-                                    }))
+                                props.unfollow(u.id)
                             }}>Remove from friends</button> :
                             <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
-                                props.setFollowingInProgress(true, u.id)
-                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                                    withCredentials: true,
-                                    headers: {
-                                    "API-KEY": '433520f3-b807-456c-908f-67604d9c56a7'
-                                    }
-                                })
-                                    .then((response => {
-                                        if(response.data.resultCode === 0){
-                                            props.addFriend(u.id)
-                                        }
-                                        props.setFollowingInProgress(false, u.id)
-                                    }))
+                                props.follow(u.id)
                             }}>Add to friends</button>}
                         </div>
                         <div className={s.location}>

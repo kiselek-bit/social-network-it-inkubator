@@ -1,5 +1,6 @@
 import {PostType} from "./store";
 import {ProfileType} from "../components/profile/ProfileContainer";
+import {profileAPI} from "../api/api";
 
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -60,7 +61,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case ACTION_TYPES.UPDATE_NEW_TEXT:
             return {...state, newTextType: action.text}
         case ACTION_TYPES.SET_USER_PROFILE:
-            return {...state, profile: action.profile}
+            return {...state, profile: {...action.profile, userId: action.profile.userId}}
         default:
             return state
     }
@@ -72,4 +73,11 @@ export const updateNewTextPostActionCreate = (text: string): UpdateNewTextAction
 }
 export const setUserProfile = (profile: ProfileType): SetUserProfileType => {
     return {type: ACTION_TYPES.SET_USER_PROFILE, profile}
+}
+
+export const getProfile = (profileId: number) => (dispatch: (action: SetUserProfileType) => void) => {
+    profileAPI.getUserProfile(profileId)
+        .then(response => {
+            dispatch(setUserProfile(response.data))
+        })
 }

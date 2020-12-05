@@ -1,3 +1,4 @@
+import {usersAPI} from "../api/api";
 
 export type UserType = {
     id: number
@@ -144,4 +145,35 @@ export const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionTyp
 }
 export const setFollowingInProgress = (followingInProgress: boolean, id: number): FollowingInProgressActionType => {
     return {type: ACTION_TYPES.FOLLOWING_IN_PROGRESS, followingInProgress, id}
+}
+
+export const getUsers = (currentPage: number, pageSize: number) => (dispatch: any) => {
+    dispatch(toggleIsFetching(true))
+    usersAPI.getUsers(currentPage,pageSize)
+        .then(data => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUsers(data['items']))
+            dispatch(setTotalUsersCount(data['totalCount']))
+            dispatch(setCurrentPage(currentPage))
+        })
+}
+export const unfollow = (userId: number) => (dispatch: any) => {
+    dispatch(setFollowingInProgress(true, userId))
+    usersAPI.unfollow(userId)
+        .then((response => {
+            if(response.data.resultCode === 0){
+                dispatch(removeFriend(userId))
+            }
+            dispatch(setFollowingInProgress(false, userId))
+        }))
+}
+export const follow = (userId: number) => (dispatch: any) => {
+    dispatch(setFollowingInProgress(true, userId))
+    usersAPI.follow(userId)
+        .then((response => {
+            if(response.data.resultCode === 0){
+                dispatch(addFriend(userId))
+            }
+            dispatch(setFollowingInProgress(false, userId))
+        }))
 }

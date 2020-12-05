@@ -14,7 +14,8 @@ const mapStateToProps = (state: RootStore) => {
     return {
         newTextMessage: state.dialogsPage.newTextMessage,
         dialogs: state.dialogsPage.dialogs,
-        messages: state.dialogsPage.messages
+        messages: state.dialogsPage.messages,
+        isAuth: state.auth.isAuth
     }
 }
 const mapDispatchToProps =(dispatch: (action: UpdateNewMessageActionType | AddMessageActionType) => void) => {
