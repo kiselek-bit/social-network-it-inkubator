@@ -11,7 +11,6 @@ export type DialogsPropsType ={
     newTextMessage: string
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    isAuth: boolean
 }
 
 
@@ -26,10 +25,6 @@ const Dialogs = (props: DialogsPropsType) => {
     const onChangeMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let text: string = e.currentTarget.value
         props.updateNewMessage(text)
-    }
-
-    if(!props.isAuth) {
-        return <Redirect to={'/login'}/>
     }
 
     return (

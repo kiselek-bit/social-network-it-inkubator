@@ -26,7 +26,14 @@ export const usersAPI = {
 export const profileAPI = {
     getUserProfile(userId: ReactText) {
         return instance.get('profile/' + userId)
+    },
+    getStatus(userId: number) {
+        return instance.get('profile/status/' + userId)
+    },
+    updateStatus(status: string) {
+        return instance.put('profile/status/', {status})
     }
+
 }
 export const authAPI = {
     checkAuth() {

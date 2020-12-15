@@ -6,6 +6,8 @@ import {
 } from "../../redux/usersReducer";
 import {RootStore} from "../../redux/reduxStore";
 import {Users} from "./Users";
+import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
+import {compose} from "redux";
 
 type PropsUsersType = {
     users: Array<UserType>
@@ -56,8 +58,7 @@ const mapStateToProps = (state: RootStore): UsersType => {
     }
 }
 
-export const UsersContainer = connect(mapStateToProps, {
-    getUsers,
-    unfollow,
-    follow,
-})(UsersContainerAPI)
+export const UsersContainer = compose(
+    connect(mapStateToProps, {getUsers, unfollow, follow,}),
+    withAuthRedirect
+)(UsersContainerAPI) as React.ComponentType
