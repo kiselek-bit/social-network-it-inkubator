@@ -1,11 +1,12 @@
 import React from 'react';
 import Header from "./Header";
 import {connect} from "react-redux";
-import {isAuthorized} from "../../redux/authReducer";
+import {isAuthorized, logout} from "../../redux/authReducer";
 import {RootStore} from "../../redux/reduxStore";
 
 type PropsType = {
     isAuthorized: () => void
+    logout: () => void
     isAuth: boolean
     login: string | null
 }
@@ -27,6 +28,6 @@ const mapStateToProps = (state: RootStore) => {
     }
 }
 
-let HeaderContainer = connect(mapStateToProps, {isAuthorized})(HeaderContainerAPI)
+let HeaderContainer = connect(mapStateToProps, {isAuthorized, logout})(HeaderContainerAPI)
 
 export default HeaderContainer;

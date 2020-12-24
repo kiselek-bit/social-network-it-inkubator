@@ -3,7 +3,7 @@ import {
     AddMessageActionType,
     UpdateNewMessageActionType
 } from "../../redux/store";
-import {addMessageActionCreate, updateNewMessageActionCreate} from "../../redux/dialogsReducer";
+import {addMessageActionCreate} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import {RootStore} from "../../redux/reduxStore";
@@ -14,25 +14,21 @@ import {compose} from "redux";
 
 const mapStateToProps = (state: RootStore) => {
     return {
-        newTextMessage: state.dialogsPage.newTextMessage,
         dialogs: state.dialogsPage.dialogs,
         messages: state.dialogsPage.messages
     }
 }
 const mapDispatchToProps =(dispatch: (action: UpdateNewMessageActionType | AddMessageActionType) => void) => {
     return {
-        sendMessage: () => {
-            dispatch(addMessageActionCreate())
+        sendMessage: (newMessage: string) => {
+            dispatch(addMessageActionCreate(newMessage))
         },
-        updateNewMessage: (text: string) => {
-            dispatch(updateNewMessageActionCreate(text))
-        }
     }
 }
-
-const WithRedirectDialogs = withAuthRedirect(Dialogs)
-
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(WithRedirectDialogs)
+//
+// const WithRedirectDialogs = withAuthRedirect(Dialogs)
+//
+// const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(WithRedirectDialogs)
 
 
 

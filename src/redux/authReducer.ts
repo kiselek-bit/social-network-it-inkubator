@@ -1,4 +1,6 @@
 import {authAPI} from "../api/api";
+import {Dispatch} from "redux";
+import {DispatchProp} from "react-redux";
 
 
 export type UserDataType = {
@@ -45,10 +47,28 @@ export const setAuthUserData = (data: UserDataType, isAuth: boolean): SetUserDat
     return {type: ACTION_TYPES.SET_USER_DATA, id: data.id, email: data.email, login: data.login, isAuth}
 }
 
-export const isAuthorized = () => (dispatch: any) => {
+export const isAuthorized = () => (dispatch: Dispatch) => {
     authAPI.checkAuth()
         .then((data) => {
-            console.log(data)
             dispatch(setAuthUserData(data.data, data.resultCode === 0))
         })
 }
+export const login = (email: string, password: string, rememberMe: boolean, captcha?: boolean) => (dispatch: any) => {
+    authAPI.login(email, password, rememberMe)
+        .then((data) => {
+            if (data.data.resultCode === 0) {
+                dispatch(isAuthorized())
+            }
+        })
+}
+
+export const logout = () => (dispatch: any) => {
+    authAPI.logout()
+        .then((response) => {
+            if (response.data.resultCode === 0) {
+                let InitialState: UserDataType = {login: null, email: null, isAuth: false, id: null}
+                dispatch(setAuthUserData(InitialState, false))
+            }
+        })
+}
+

@@ -4,16 +4,12 @@ import {profileAPI} from "../api/api";
 
 export type ProfilePageType = {
     posts: Array<PostType>
-    newTextType: string
     profile: ProfileType
     status: string
 }
 type AddPostActionType = {
     type: 'ADD-POST'
-}
-type UpdateNewTextActionType = {
-    type: 'UPDATE-NEW-TEXT'
-    text: string
+    postMessage: string
 }
 type SetUserProfileType = {
     type: ACTION_TYPES.SET_USER_PROFILE
@@ -24,7 +20,7 @@ type SetStatusType = {
     value: string
 }
 
-type ActionsTypes = AddPostActionType | UpdateNewTextActionType |
+type ActionsTypes = AddPostActionType |
     SetUserProfileType | SetStatusType
 
 enum ACTION_TYPES {
@@ -39,7 +35,6 @@ let initialState: ProfilePageType = {
         {id: 1, message: 'Hi, how are you?', likes: 4},
         {id: 2, message: 'It\'s my first post', likes: 7}
     ],
-    newTextType: '',
     profile: {
         aboutMe: '',
         contacts: {},
@@ -62,11 +57,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         case ACTION_TYPES.ADD_POST:
             return {
                 ...state,
-                posts: [{id: 3, message: state.newTextType, likes: 0}, ...state.posts],
-                newTextType: ''
+                posts: [{id: 3, message: action.postMessage, likes: 0}, ...state.posts],
             }
-        case ACTION_TYPES.UPDATE_NEW_TEXT:
-            return {...state, newTextType: action.text}
         case ACTION_TYPES.SET_USER_PROFILE:
             return {...state, profile: {...action.profile, userId: action.profile.userId}}
         case ACTION_TYPES.SET_STATUS:
@@ -76,10 +68,8 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 }
 
-export const addPostActionCreate = (): AddPostActionType => ({type: ACTION_TYPES.ADD_POST})
-export const updateNewTextPostActionCreate = (text: string): UpdateNewTextActionType => {
-    return {type: ACTION_TYPES.UPDATE_NEW_TEXT, text: text}
-}
+export const addPostActionCreate = (postMessage: string): AddPostActionType => ({type: ACTION_TYPES.ADD_POST, postMessage})
+
 export const setUserProfile = (profile: ProfileType): SetUserProfileType => {
     return {type: ACTION_TYPES.SET_USER_PROFILE, profile}
 }

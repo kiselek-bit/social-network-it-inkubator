@@ -30,7 +30,6 @@ export type NavbarFriendsType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newTextMessage: string
 }
 
 export type StateType = {
@@ -55,6 +54,7 @@ export type UpdateNewTextActionType = {
 }
 export type AddMessageActionType = {
     type: 'ADD-MASSAGE'
+    newMessage: string
 }
 export type UpdateNewMessageActionType = {
     type: 'UPDATE-NEW-MESSAGE'

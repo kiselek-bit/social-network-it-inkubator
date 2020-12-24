@@ -1,7 +1,6 @@
-import {ActionsTypes, AddMessageActionType, DialogsPageType, UpdateNewMessageActionType} from "./store";
+import {ActionsTypes, AddMessageActionType, DialogsPageType} from "./store";
 
 const ADD_MESSAGE = 'ADD-MASSAGE'
-const UPDATE_NEW_MESSAGE = 'UPDATE-NEW-MESSAGE'
 
 let initialState: DialogsPageType = {
     dialogs: [
@@ -19,7 +18,6 @@ let initialState: DialogsPageType = {
         {id: 4, message: "Looking this video ..."},
         {id: 5, message: "You forever!"}
     ],
-    newTextMessage: ''
 }
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsTypes): DialogsPageType => {
@@ -29,17 +27,11 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
         case ADD_MESSAGE:
             return  {
                 ...state,
-                newTextMessage: '',
-                messages: [...state.messages, {id: 6, message: state.newTextMessage}]
+                messages: [...state.messages, {id: 6, message: action.newMessage}]
             }
-        case UPDATE_NEW_MESSAGE:
-            return {...state, newTextMessage: action.text}
         default:
             return state
     }
 }
 
-export const addMessageActionCreate = (): AddMessageActionType => ({type: ADD_MESSAGE})
-export const updateNewMessageActionCreate = (text: string): UpdateNewMessageActionType => {
-    return {type: UPDATE_NEW_MESSAGE, text: text}
-}
+export const addMessageActionCreate = (newMessage: string): AddMessageActionType => ({type: ADD_MESSAGE, newMessage})
