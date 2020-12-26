@@ -2,12 +2,20 @@ import React from "react";
 import {connect} from "react-redux";
 import {
     UsersType,
-    UserType, getUsers, unfollow, follow
+    UserType, requestUsers, unfollow, follow
 } from "../../redux/usersReducer";
 import {RootStore} from "../../redux/reduxStore";
 import {Users} from "./Users";
 import {withAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 type PropsUsersType = {
     users: Array<UserType>
@@ -47,18 +55,28 @@ class UsersContainerAPI extends React.Component<PropsUsersType, {}> {
 }
 
 
+// const mapStateToProps = (state: RootStore): UsersType => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         currentPage: state.usersPage.currentPage,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
 const mapStateToProps = (state: RootStore): UsersType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        currentPage: state.usersPage.currentPage,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        currentPage: getCurrentPage(state),
+        totalUsersCount: getTotalUsersCount(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
 export const UsersContainer = compose(
-    connect(mapStateToProps, {getUsers, unfollow, follow,}),
-    withAuthRedirect
+    connect(mapStateToProps, {getUsers: requestUsers, unfollow, follow,}),
+    // withAuthRedirect
 )(UsersContainerAPI) as React.ComponentType

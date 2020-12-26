@@ -1,6 +1,7 @@
 import {authAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {DispatchProp} from "react-redux";
+import {stopSubmit} from "redux-form";
 
 
 export type UserDataType = {
@@ -48,7 +49,7 @@ export const setAuthUserData = (data: UserDataType, isAuth: boolean): SetUserDat
 }
 
 export const isAuthorized = () => (dispatch: Dispatch) => {
-    authAPI.checkAuth()
+    return authAPI.checkAuth()
         .then((data) => {
             dispatch(setAuthUserData(data.data, data.resultCode === 0))
         })
@@ -58,6 +59,9 @@ export const login = (email: string, password: string, rememberMe: boolean, capt
         .then((data) => {
             if (data.data.resultCode === 0) {
                 dispatch(isAuthorized())
+            } else {
+                let message = data.data.messages.length > 0 ? data.data.messages[0] : 'Some error'
+                dispatch(stopSubmit('login', {_error: message}))
             }
         })
 }
